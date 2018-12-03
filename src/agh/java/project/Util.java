@@ -2,14 +2,10 @@ package agh.java.project;
 
 import java.time.Month;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class Util {
-    private Database database;
-    private List<Verdicts> verdicts;
+public class Util extends AbstractUtil {
     public Util(Database database) {
-        this.database = database;
-        this.verdicts = database.allVerdicts();
+        super(database);
     }
 
     public List<String> getMetrics(List<String> signatures) {
@@ -44,27 +40,11 @@ public class Util {
         Map<String, Integer> judgeCount = new HashMap<>();
         for (Verdicts ver : verdicts){
             List<Judge> judges = ver.getJudges();
-            List<String> names = new LinkedList<>();
             for (Judge j : judges){
-                names.add(j.getName());
-            }
-            for (String name : names){
-                if (judgeCount.get(name) == null){
-                    judgeCount.put(name,1);
-                } else {
-                    judgeCount.put(name, judgeCount.get(name) + 1);
-                }
+                judgeCount.merge(j.getName(), 1, (a, b) -> a + b);
             }
         }
-        List<Map.Entry<String,Integer>> list = new ArrayList<>(judgeCount.entrySet());
-        Comparator<Map.Entry<String,Integer>> comparator = Comparator.comparing(Map.Entry::getValue);
-        Collections.sort(list,comparator.reversed());
-        list = list.subList(0,10);
-        LinkedHashMap<String,Integer> result = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-        return result;
+        return super.extractTop10(judgeCount);
     }
     public SortedMap<Month, Integer> verdictsByMonth(){
         SortedMap<Month, Integer> judgmentsByMonthCount = new TreeMap<>();
@@ -101,27 +81,11 @@ public class Util {
         Map<String, Integer> cCCount = new HashMap<>();
         for (Verdicts ver : verdicts){
             List<ReferencedRegulations> regulationsList = ver.getReferencedRegulations();
-            List<String> journalTitles = new LinkedList<>();
             for (ReferencedRegulations r : regulationsList) {
-                journalTitles.add(r.getJournalTitle());
-            }
-            for(String jT : journalTitles){
-                if (cCCount.get(jT) == null){
-                    cCCount.put(jT,1);
-                } else {
-                    cCCount.put(jT, cCCount.get(jT) + 1);
-                }
+                cCCount.merge(r.getJournalTitle(), 1, (a, b) -> a + b);
             }
         }
-        List<Map.Entry<String,Integer>> list = new ArrayList<>(cCCount.entrySet());
-        Comparator<Map.Entry<String,Integer>> comparator = Comparator.comparing(Map.Entry::getValue);
-        Collections.sort(list,comparator.reversed());
-        list = list.subList(0,10);
-        LinkedHashMap<String,Integer> result = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
-        }
-        return result; //zrobic abstrakty laczac z "II"
+        return super.extractTop10(cCCount);
     }
 
     public double avgJudgesNoByVerdict(){

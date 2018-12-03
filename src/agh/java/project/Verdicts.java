@@ -1,6 +1,5 @@
 package agh.java.project;
 
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -48,7 +47,13 @@ public class Verdicts {
     }
 
     public String getReason(){
-        return "";
+        int index = getTextContent().indexOf("UZASADNIENIE");
+        //return getTextContent().substring(index);
+        return dropHtmlTags(getTextContent().substring(index));
+    }
+
+    public String dropHtmlTags(String reasonWithTags){
+        return reasonWithTags.replaceAll("<[^>]+>",""); //remove substrings beginning with "<", having whichever length and consisting of any chars except of ">"  in "<..>"
     }
 
     public CourtType getCourtType() {

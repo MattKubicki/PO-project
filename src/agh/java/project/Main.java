@@ -1,8 +1,6 @@
 package agh.java.project;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.time.Month;
 import java.util.*;
 
@@ -40,6 +38,8 @@ public class Main {
             for (String test : testList) {
                 System.out.println(test);
             }
+            System.out.println();
+            System.out.println(util.getReasons("VI ACa 819/13"));
             System.out.println();
             System.out.println(util.judgmentsByJudgeNo("Ewa Drzymała"));
             System.out.println();
