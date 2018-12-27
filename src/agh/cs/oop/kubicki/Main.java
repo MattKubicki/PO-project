@@ -7,10 +7,10 @@ public class Main {
         try {
             Database database = new Database(args[0],args[1]);
             if (args.length > 2){
-                Console console = new Console("> ",database,args[2]);
+                Console console = new Console(database,args[2]);
             }
             else{
-                Console console = new Console("> ",database,"");
+                Console console = new Console(database,"");
             }
         }
         catch (ArrayIndexOutOfBoundsException ex){

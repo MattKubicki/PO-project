@@ -13,11 +13,11 @@ public class Content extends AbstractFunction {
     public String execute(List<String> list) {
         StringBuilder result = new StringBuilder("");
         try {
-            result.append("Uzasadnienie wyroku ").append((list.get(0))).append(":").append("\n").
-                    append(getReasons(list.get(0)));
+            result.append("Uzasadnienie wyroku ").append((list.get(0))).append(":").append("\n").append("\n")
+                    .append(getReasons(list.get(0)));
         }
         catch (Exception ex){
-            result.append("Nie znaleziono! Być może podano błędną sygnaturę").append("\n");
+            result.append("Nie znaleziono! Być może podano błędną sygnaturę");
         }
         return result.toString();
     }

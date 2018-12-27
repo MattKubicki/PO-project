@@ -50,7 +50,14 @@ public class Verdicts {
     }
 
     public String dropHtmlTags(String reasonWithTags){
-        return reasonWithTags.replaceAll("<[^>]+>",""); //remove substrings beginning with "<", having whichever length and consisting of any chars except of ">"  in "<..>"
+        String result = reasonWithTags.replaceAll("<[^>]+>",""); //remove substrings beginning with "<", having whichever length and consisting of any chars except of ">"  in "<..>"
+        result = result.trim().replaceAll(" +"," "); //remove spaces
+        result = result.replaceAll(" [\n] ","");
+        result = result.replaceAll("[\n] [\n]", "");
+        result = result.replaceAll("[\n][\n]", "\n");
+        result = result.replaceAll("[\n][\n]", "");
+        result = result.replaceAll("[\n] "," ");
+        return result;
     }
 
     public CourtType getCourtType() {

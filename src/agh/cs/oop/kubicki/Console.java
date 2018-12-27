@@ -14,23 +14,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class Console {
-    private String prompt;
+    public Console(Database db, String outputFilePath) throws IOException {
+        String prompt = "> ";
 
-    public Console(String prompt, Database db, String outputFilePath) throws IOException {
-        this.prompt=prompt;
-
-        Terminal terminal = TerminalBuilder.builder().system(true).build();
+        Terminal terminal = TerminalBuilder.builder().build();
         LineReader lineReader = LineReaderBuilder.builder().terminal(terminal).build();
         HashMap<String, AbstractFunction> commands = loadCommands(db);
         String inputText;
         FileWriter fileWriter;
         BufferedWriter bufferedWriter;
+        terminal.writer().println("Statystyka orzeczeń sądowych, Mateusz Kubicki AGH");
+        terminal.writer().println("Program gotowy do działania, wpisz 'help' aby zobaczyć listę dostępnych komend");
 
         while(true) {
-            inputText = lineReader.readLine(this.prompt, (char) 0);
-            if (inputText == "\n") continue;
+            inputText = lineReader.readLine(prompt);
+            //the line above prints commands two times in intelij, but works perfectly in linux terminal
+            //when I added char(0) as second argument along with this.prompt program prints commands only once in intelij as expected
+            //but commands are not visible in linux terminal and history doesn't work at all
             String output = "";
             String command =  "";
             String arg = "";
